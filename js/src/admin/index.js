@@ -12,14 +12,7 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
                 {Button.component({
                     className: 'Button Button--primary Button--block',
                     children: app.translator.trans('nearata-tags-color-generator.admin.generate_color_button'),
-                    onclick: () => {
-                        for(const i of items.get('color')['children']) {
-                            if(i.tag === 'input') {
-                                const color = randomColor();
-                                this.color(color);
-                            }
-                        }
-                    }
+                    onclick: () => this.color(randomColor())
                 })}
             </div>, 20
         );
