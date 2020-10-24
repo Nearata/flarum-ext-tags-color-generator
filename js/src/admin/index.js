@@ -6,9 +6,9 @@ import EditTagModal from 'flarum/tags/components/EditTagModal';
 import randomColor from 'randomcolor';
 
 app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
-    extend(EditTagModal.prototype, 'init', function() {
-        this.luminosity = m.prop('random');
-        this.hue = m.prop('random');
+    extend(EditTagModal.prototype, 'oninit', function() {
+        this.luminosity = 'random';
+        this.hue = 'random';
     });
 
     extend(EditTagModal.prototype, 'fields', function(items) {
@@ -23,8 +23,8 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
                         bright: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.bright'),
                         dark: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.dark')
                     },
-                    value: this.luminosity(),
-                    onchange: this.luminosity
+                    value: this.luminosity,
+                    onchange: value => this.luminosity = value
                 })}
             </div>, 20
         );
@@ -45,8 +45,8 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
                         pink: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.pink'),
                         monochrome: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.monochrome')
                     },
-                    value: this.hue(),
-                    onchange: this.hue
+                    value: this.hue,
+                    onchange: value => this.hue = value
                 })}
             </div>, 20
         );
@@ -56,12 +56,11 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
             <div className="Form-group">
                 {Button.component({
                     className: 'Button Button--primary Button--block',
-                    children: app.translator.trans('nearata-tags-color-generator.admin.generate_color_button'),
                     onclick: () => this.color(randomColor({
-                        luminosity: this.luminosity(),
-                        hue: this.hue()
+                        luminosity: this.luminosity,
+                        hue: this.hue
                     }))
-                })}
+                }, app.translator.trans('nearata-tags-color-generator.admin.generate_color_button'))}
             </div>, 20
         );
     });
