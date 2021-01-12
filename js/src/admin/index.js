@@ -3,6 +3,7 @@ import { extend } from 'flarum/extend';
 import Button from 'flarum/components/Button';
 import Select from 'flarum/components/Select';
 import EditTagModal from 'flarum/tags/components/EditTagModal';
+
 import randomColor from 'randomcolor';
 
 app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
@@ -14,9 +15,9 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
     extend(EditTagModal.prototype, 'fields', function(items) {
         items.add(
             'colorLuminosity',
-            <div className="Form-group">
-                <label>{app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_label')}</label>
-                {Select.component({
+            m('.Form-group', [
+                m('label', app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_label')),
+                m(Select, {
                     options: {
                         random: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.random'),
                         light: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.light'),
@@ -25,15 +26,15 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
                     },
                     value: this.luminosity,
                     onchange: value => this.luminosity = value
-                })}
-            </div>, 20
+                })
+            ]), 20
         );
 
         items.add(
             'colorHue',
-            <div className="Form-group">
-                <label>{app.translator.trans('nearata-tags-color-generator.admin.color_hue_label')}</label>
-                {Select.component({
+            m('.Form-group', [
+                m('label', app.translator.trans('nearata-tags-color-generator.admin.color_hue_label')),
+                m(Select, {
                     options: {
                         random: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.random'),
                         red: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.red'),
@@ -47,21 +48,21 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
                     },
                     value: this.hue,
                     onchange: value => this.hue = value
-                })}
-            </div>, 20
+                })
+            ]), 20
         );
 
         items.add(
             'generateRandomColor',
-            <div className="Form-group">
-                {Button.component({
-                    className: 'Button Button--primary Button--block',
+            m('.Form-group', [
+                m(Button, {
+                    'class': 'Button Button--primary Button--block',
                     onclick: () => this.color(randomColor({
                         luminosity: this.luminosity,
                         hue: this.hue
                     }))
-                }, app.translator.trans('nearata-tags-color-generator.admin.generate_color_button'))}
-            </div>, 20
+                }, app.translator.trans('nearata-tags-color-generator.admin.generate_color_button'))
+            ]), 20
         );
     });
 });
