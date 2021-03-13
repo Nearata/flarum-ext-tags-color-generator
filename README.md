@@ -2,22 +2,29 @@
 
 > A [Flarum](http://flarum.org) extension that allows the generation of a random color for tags.
 
-## Installation
+## Install
 
 ```sh
 composer require nearata/flarum-ext-tags-color-generator
 ```
 
-## Updating
+## Update
 
 ```sh
 composer update nearata/flarum-ext-tags-color-generator
 php flarum cache:clear
 ```
 
+## Remove
+
+```sh
+composer remove nearata/flarum-ext-tags-color-generator
+php flarum cache:clear
+```
+
 ## License
 
-Distributed under the MIT license. See `LICENSE` for more information.
+Distributed under the MIT license. See [LICENSE](LICENSE) for more information.
 
 ## Contributing
 
