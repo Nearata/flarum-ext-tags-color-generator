@@ -2,14 +2,32 @@ import app from 'flarum/app';
 import { extend } from 'flarum/extend';
 import Button from 'flarum/components/Button';
 import Select from 'flarum/components/Select';
+
 import EditTagModal from 'flarum/tags/components/EditTagModal';
 
 import randomColor from 'randomcolor';
 
-app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
+app.initializers.add('nearata-tags-color-generator', () => {
     extend(EditTagModal.prototype, 'oninit', function() {
         this.luminosity = 'random';
         this.hue = 'random';
+
+        this.textColor = this.tag.name() && this.tag.attribute('textColor') || '';
+        this.isCustomColor = this.tag.name() && this.tag.attribute('isCustomColor') || false;
+        this.textColorSelect = 'default';
+
+        if (this.isCustomColor) {
+            this.textColorSelect = 'custom';
+        }
+
+        if (this.textColor.startsWith('theme')) {
+            this.textColorSelect =  this.textColor;
+        }
+    });
+
+    extend(EditTagModal.prototype, 'submitData', function (data) {
+        data.textColor = this.textColor;
+        data.isCustomColor = this.isCustomColor;
     });
 
     extend(EditTagModal.prototype, 'fields', function(items) {
@@ -53,10 +71,50 @@ app.initializers.add('nearata/flarum-ext-tags-color-generator', () => {
         );
 
         items.add(
+            'textColor',
+            m('.Form-group', [
+                m('.Form-group', [
+                    m('label', app.translator.trans('nearata-tags-color-generator.admin.text_color.label')),
+                    m(Select, {
+                        options: {
+                            default: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.default'),
+                            themePrimaryColor: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.theme_primary_color'),
+                            themeSecondaryColor: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.theme_secondary_color'),
+                            custom: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.custom')
+                        },
+                        value: this.textColorSelect,
+                        onchange: value => {
+                            this.textColorSelect = value;
+                            if (value === 'custom') {
+                                this.textColor = '';
+                                this.isCustomColor = true;
+                            } else {
+                                this.textColor = value;
+                                this.isCustomColor = false;
+                            }
+                        }
+                    })
+                ]),
+                this.isCustomColor ? m('.Form-group', [
+                    m('label', app.translator.trans('nearata-tags-color-generator.admin.text_color.custom_label')),
+                    m('.helpText', app.translator.trans('nearata-tags-color-generator.admin.text_color.custom_helptext')),
+                    m('input', {
+                        class: 'FormControl',
+                        type: 'text',
+                        oninput: e => this.textColor = e.target.value,
+                        value: this.textColor,
+                        autocomplete: 'off',
+                        placeholder: '#aaaaaa'
+                    })
+                ]) : null
+            ]), 20
+        );
+
+        items.add(
             'generateRandomColor',
             m('.Form-group', [
                 m(Button, {
-                    'class': 'Button Button--primary Button--block',
+                    class: 'Button Button--primary Button--block',
                     onclick: () => this.color(randomColor({
                         luminosity: this.luminosity,
                         hue: this.hue
