@@ -1,13 +1,12 @@
-import app from 'flarum/app';
-import { extend } from 'flarum/extend';
-import Button from 'flarum/components/Button';
-import Select from 'flarum/components/Select';
+import { extend } from 'flarum/common/extend';
+import Button from 'flarum/common/components/Button';
+import Select from 'flarum/common/components/Select';
 
-import EditTagModal from 'flarum/tags/components/EditTagModal';
+import EditTagModal from 'flarum/tags/admin/components/EditTagModal';
 
 import randomColor from 'randomcolor';
 
-app.initializers.add('nearata-tags-color-generator', () => {
+app.initializers.add('nearata-tags-color-generator', app => {
     extend(EditTagModal.prototype, 'oninit', function() {
         this.luminosity = 'random';
         this.hue = 'random';

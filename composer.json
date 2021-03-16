@@ -15,7 +15,8 @@
         "forum": "https://discuss.flarum.org/d/24644"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.15"
+        "flarum/core": ">=0.1.0-beta.16 <=0.1.0",
+        "flarum/tags": "^0.1.0-beta.16"
     },
     "authors": [
         {
@@ -32,6 +33,7 @@
     "extra": {
         "flarum-extension": {
             "title": "Tags Color Generator",
+            "category": "feature",
             "icon": {
                 "name": "fas fa-random",
                 "backgroundColor": "#57bc7f",

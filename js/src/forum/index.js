@@ -1,8 +1,7 @@
-import app from 'flarum/app';
-import { extend } from 'flarum/extend';
-import IndexPage from 'flarum/components/IndexPage';
+import { extend } from 'flarum/common/extend';
+import IndexPage from 'flarum/forum/components/IndexPage';
 
-app.initializers.add('nearata-tags-color-generator', () => {
+app.initializers.add('nearata-tags-color-generator', app => {
     extend(IndexPage.prototype, 'oncreate', function () {
         if (this.attrs.routeName !== 'tag') {
             return;
