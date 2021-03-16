@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-[Changes](https://github.com/Nearata/flarum-ext-tags-color-generator/compare/v1.3.0...master)
+[Changes](https://github.com/Nearata/flarum-ext-tags-color-generator/compare/v1.4.0...master)
+
+## [1.4.0] - 2021-03-16
+
+[Changes](https://github.com/Nearata/flarum-ext-tags-color-generator/compare/v1.3.0...v1.4.0)
+
+Updated to beta 16
 
 ## [1.3.0] - 2021-03-14
 
