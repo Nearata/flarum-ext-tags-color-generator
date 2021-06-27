@@ -1,4 +1,5 @@
 import { extend } from 'flarum/common/extend';
+import app from 'flarum/admin/app';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
 
@@ -6,7 +7,11 @@ import EditTagModal from 'flarum/tags/admin/components/EditTagModal';
 
 import randomColor from 'randomcolor';
 
-app.initializers.add('nearata-tags-color-generator', app => {
+const trans = key => {
+    return app.translator.trans(`nearata-tags-color-generator.admin.${key}`);
+}
+
+app.initializers.add('nearata-tags-color-generator', () => {
     extend(EditTagModal.prototype, 'oninit', function() {
         this.luminosity = 'random';
         this.hue = 'random';
@@ -33,13 +38,13 @@ app.initializers.add('nearata-tags-color-generator', app => {
         items.add(
             'colorLuminosity',
             m('.Form-group', [
-                m('label', app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_label')),
+                m('label', trans('color_luminosity_label')),
                 m(Select, {
                     options: {
-                        random: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.random'),
-                        light: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.light'),
-                        bright: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.bright'),
-                        dark: app.translator.trans('nearata-tags-color-generator.admin.color_luminosity_options.dark')
+                        random: trans('color_luminosity_options.random'),
+                        light: trans('color_luminosity_options.light'),
+                        bright: trans('color_luminosity_options.bright'),
+                        dark: trans('color_luminosity_options.dark')
                     },
                     value: this.luminosity,
                     onchange: value => this.luminosity = value
@@ -50,18 +55,18 @@ app.initializers.add('nearata-tags-color-generator', app => {
         items.add(
             'colorHue',
             m('.Form-group', [
-                m('label', app.translator.trans('nearata-tags-color-generator.admin.color_hue_label')),
+                m('label', trans('color_hue_label')),
                 m(Select, {
                     options: {
-                        random: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.random'),
-                        red: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.red'),
-                        orange: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.orange'),
-                        yellow: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.yellow'),
-                        green: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.green'),
-                        blue: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.blue'),
-                        purple: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.purple'),
-                        pink: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.pink'),
-                        monochrome: app.translator.trans('nearata-tags-color-generator.admin.color_hue_options.monochrome')
+                        random: trans('color_hue_options.random'),
+                        red: trans('color_hue_options.red'),
+                        orange: trans('color_hue_options.orange'),
+                        yellow: trans('color_hue_options.yellow'),
+                        green: trans('color_hue_options.green'),
+                        blue: trans('color_hue_options.blue'),
+                        purple: trans('color_hue_options.purple'),
+                        pink: trans('color_hue_options.pink'),
+                        monochrome: trans('color_hue_options.monochrome')
                     },
                     value: this.hue,
                     onchange: value => this.hue = value
@@ -73,13 +78,13 @@ app.initializers.add('nearata-tags-color-generator', app => {
             'textColor',
             m('.Form-group', [
                 m('.Form-group', [
-                    m('label', app.translator.trans('nearata-tags-color-generator.admin.text_color.label')),
+                    m('label', trans('text_color.label')),
                     m(Select, {
                         options: {
-                            default: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.default'),
-                            themePrimaryColor: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.theme_primary_color'),
-                            themeSecondaryColor: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.theme_secondary_color'),
-                            custom: app.translator.trans('nearata-tags-color-generator.admin.text_color.options.custom')
+                            default: trans('text_color.options.default'),
+                            themePrimaryColor: trans('text_color.options.theme_primary_color'),
+                            themeSecondaryColor: trans('text_color.options.theme_secondary_color'),
+                            custom: trans('text_color.options.custom')
                         },
                         value: this.textColorSelect,
                         onchange: value => {
@@ -95,8 +100,8 @@ app.initializers.add('nearata-tags-color-generator', app => {
                     })
                 ]),
                 this.isCustomColor ? m('.Form-group', [
-                    m('label', app.translator.trans('nearata-tags-color-generator.admin.text_color.custom_label')),
-                    m('.helpText', app.translator.trans('nearata-tags-color-generator.admin.text_color.custom_helptext')),
+                    m('label', trans('text_color.custom_label')),
+                    m('.helpText', trans('text_color.custom_helptext')),
                     m('input', {
                         class: 'FormControl',
                         type: 'text',
@@ -118,7 +123,7 @@ app.initializers.add('nearata-tags-color-generator', app => {
                         luminosity: this.luminosity,
                         hue: this.hue
                     }))
-                }, app.translator.trans('nearata-tags-color-generator.admin.generate_color_button'))
+                }, trans('generate_color_button'))
             ]), 20
         );
     });
