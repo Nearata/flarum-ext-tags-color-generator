@@ -4,7 +4,6 @@ import IndexPage from 'flarum/forum/components/IndexPage';
 
 app.initializers.add('nearata-tags-color-generator', () => {
     extend(IndexPage.prototype, 'oncreate', function () {
-        window.test = this
         if (this.attrs.routeName !== 'tag') {
             return;
         }
