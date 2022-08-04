@@ -1,6 +1,7 @@
 import { extend } from 'flarum/common/extend';
 import app from 'flarum/admin/app';
 import Button from 'flarum/common/components/Button';
+import ColorPreviewInput from 'flarum/common/components/ColorPreviewInput';
 import Select from 'flarum/common/components/Select';
 
 import EditTagModal from 'flarum/tags/admin/components/EditTagModal';
@@ -17,21 +18,18 @@ app.initializers.add('nearata-tags-color-generator', () => {
         this.hue = 'random';
 
         this.textColor = this.tag.name() && this.tag.attribute('textColor') || '';
-        this.isCustomColor = this.tag.name() && this.tag.attribute('isCustomColor') || false;
+        this.isCustomColor = this.tag.name() && !this.textColor.startsWith('theme') || false;
         this.textColorSelect = 'default';
 
         if (this.isCustomColor) {
             this.textColorSelect = 'custom';
-        }
-
-        if (this.textColor.startsWith('theme')) {
-            this.textColorSelect =  this.textColor;
+        } else {
+            this.textColorSelect = this.textColor;
         }
     });
 
     extend(EditTagModal.prototype, 'submitData', function (data) {
         data.textColor = this.textColor;
-        data.isCustomColor = this.isCustomColor;
     });
 
     extend(EditTagModal.prototype, 'fields', function(items) {
@@ -75,6 +73,19 @@ app.initializers.add('nearata-tags-color-generator', () => {
         );
 
         items.add(
+            'generateRandomColor',
+            m('.Form-group', [
+                m(Button, {
+                    class: 'Button Button--primary Button--block',
+                    onclick: () => this.color(randomColor({
+                        luminosity: this.luminosity,
+                        hue: this.hue
+                    }))
+                }, trans('generate_color_button'))
+            ]), 20
+        );
+
+        items.add(
             'textColor',
             m('.Form-group', [
                 m('.Form-group', [
@@ -89,6 +100,7 @@ app.initializers.add('nearata-tags-color-generator', () => {
                         value: this.textColorSelect,
                         onchange: value => {
                             this.textColorSelect = value;
+
                             if (value === 'custom') {
                                 this.textColor = '';
                                 this.isCustomColor = true;
@@ -101,29 +113,12 @@ app.initializers.add('nearata-tags-color-generator', () => {
                 ]),
                 this.isCustomColor ? m('.Form-group', [
                     m('label', trans('text_color.custom_label')),
-                    m('.helpText', trans('text_color.custom_helptext')),
-                    m('input', {
-                        class: 'FormControl',
-                        type: 'text',
-                        oninput: e => this.textColor = e.target.value,
+                    m(ColorPreviewInput, {
+                        placeholder: '#aaaaaa',
                         value: this.textColor,
-                        autocomplete: 'off',
-                        placeholder: '#aaaaaa'
+                        oninput: e => this.textColor = e.target.value
                     })
                 ]) : null
-            ]), 20
-        );
-
-        items.add(
-            'generateRandomColor',
-            m('.Form-group', [
-                m(Button, {
-                    class: 'Button Button--primary Button--block',
-                    onclick: () => this.color(randomColor({
-                        luminosity: this.luminosity,
-                        hue: this.hue
-                    }))
-                }, trans('generate_color_button'))
             ]), 20
         );
     });

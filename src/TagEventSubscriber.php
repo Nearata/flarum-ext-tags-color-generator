@@ -19,17 +19,17 @@ class TagEventSubscriber
     public function handleEvent($event)
     {
         $data = $event->data;
-        if (Arr::has($data, ['attributes.textColor', 'attributes.isCustomColor'])) {
-            $textColor = Arr::get($data, 'attributes.textColor');
-            $isCustomColor = Arr::get($data, 'attributes.isCustomColor');
 
-            if (!Str::startsWith($textColor, ['theme', '#', 'rgb', 'hls'])) {
-                $textColor = '';
-                $isCustomColor = false;
-            }
-
-            $event->tag->text_color = $textColor;
-            $event->tag->is_custom_color = $isCustomColor;
+        if (!Arr::has($data, ['attributes.textColor'])) {
+            return;
         }
+
+        $textColor = Arr::get($data, 'attributes.textColor');
+
+        if (!Str::startsWith($textColor, ['themePrimaryColor', 'themeSecondaryColor', '#', 'rgb', 'rgba', 'hls', 'hlsa'])) {
+            $textColor = '';
+        }
+
+        $event->tag->text_color = $textColor;
     }
 }

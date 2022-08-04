@@ -9,14 +9,11 @@ app.initializers.add('nearata-tags-color-generator', () => {
         }
 
         const textColor = this.currentTag().attribute('textColor');
-        const isCustomColor = this.currentTag().attribute('isCustomColor');
         const heroTitleElement = this.element.querySelector('.Hero-title');
 
         if (textColor.startsWith('theme')) {
             heroTitleElement.style.color = app.forum.attribute(textColor);
-        }
-
-        if (isCustomColor) {
+        } else {
             heroTitleElement.style.color = textColor;
         }
     });
