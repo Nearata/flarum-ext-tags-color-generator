@@ -21,7 +21,6 @@ return [
     (new Extend\ApiSerializer(TagSerializer::class))
         ->attributes(function (TagSerializer $serializer, Tag $tag, array $attributes) {
             $attributes['textColor'] = (string) $tag->text_color;
-            $attributes['isCustomColor'] = (bool) $tag->is_custom_color;
 
             return $attributes;
         })
