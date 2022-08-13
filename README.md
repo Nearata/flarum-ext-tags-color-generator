@@ -8,13 +8,6 @@
 composer require nearata/flarum-ext-tags-color-generator
 ```
 
-## Update
-
-```sh
-composer update nearata/flarum-ext-tags-color-generator
-php flarum cache:clear
-```
-
 ## Remove
 
 ```sh
