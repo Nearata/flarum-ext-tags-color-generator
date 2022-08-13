@@ -1,11 +1,8 @@
-import { extend } from "flarum/common/extend";
 import app from "flarum/admin/app";
 import Button from "flarum/common/components/Button";
-import ColorPreviewInput from "flarum/common/components/ColorPreviewInput";
 import Select from "flarum/common/components/Select";
-
+import { extend } from "flarum/common/extend";
 import EditTagModal from "flarum/tags/admin/components/EditTagModal";
-
 import randomColor from "randomcolor";
 
 const trans = (key) => {
@@ -16,22 +13,6 @@ app.initializers.add("nearata-tags-color-generator", () => {
     extend(EditTagModal.prototype, "oninit", function () {
         this.luminosity = "random";
         this.hue = "random";
-
-        this.textColor =
-            (this.tag.name() && this.tag.attribute("textColor")) || "";
-        this.isCustomColor =
-            (this.tag.name() && !this.textColor.startsWith("theme")) || false;
-        this.textColorSelect = "default";
-
-        if (this.isCustomColor) {
-            this.textColorSelect = "custom";
-        } else {
-            this.textColorSelect = this.textColor;
-        }
-    });
-
-    extend(EditTagModal.prototype, "submitData", function (data) {
-        data.textColor = this.textColor;
     });
 
     extend(EditTagModal.prototype, "fields", function (items) {
@@ -93,50 +74,6 @@ app.initializers.add("nearata-tags-color-generator", () => {
                     },
                     trans("generate_color_button")
                 ),
-            ]),
-            20
-        );
-
-        items.add(
-            "textColor",
-            m(".Form-group", [
-                m(".Form-group", [
-                    m("label", trans("text_color.label")),
-                    m(Select, {
-                        options: {
-                            default: trans("text_color.options.default"),
-                            themePrimaryColor: trans(
-                                "text_color.options.theme_primary_color"
-                            ),
-                            themeSecondaryColor: trans(
-                                "text_color.options.theme_secondary_color"
-                            ),
-                            custom: trans("text_color.options.custom"),
-                        },
-                        value: this.textColorSelect,
-                        onchange: (value) => {
-                            this.textColorSelect = value;
-
-                            if (value === "custom") {
-                                this.textColor = "";
-                                this.isCustomColor = true;
-                            } else {
-                                this.textColor = value;
-                                this.isCustomColor = false;
-                            }
-                        },
-                    }),
-                ]),
-                this.isCustomColor
-                    ? m(".Form-group", [
-                          m("label", trans("text_color.custom_label")),
-                          m(ColorPreviewInput, {
-                              placeholder: "#aaaaaa",
-                              value: this.textColor,
-                              oninput: (e) => (this.textColor = e.target.value),
-                          }),
-                      ])
-                    : null,
             ]),
             20
         );
