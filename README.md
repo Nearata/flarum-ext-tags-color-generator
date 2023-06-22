@@ -6,6 +6,10 @@
 
 > Allows the generation of a random color for tags.
 
+## Screenshots
+
+See the [screenshots](screenshots) folder.
+
 ## Install
 
 ```sh
